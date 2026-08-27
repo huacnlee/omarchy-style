@@ -6,7 +6,7 @@ Use these notes to calibrate finish and composition. The referenced images are v
 
 ### Spain
 
-Asset: [Spain cover](../assets/references/omarchy-spain.png)
+Asset: [Spain cover](../../../assets/references/omarchy-spain.png)
 
 Strengths:
 
@@ -20,7 +20,7 @@ Risk: too many landmarks can become a tourism collage if the composition lacks a
 
 ### Melbourne
 
-Asset: [Melbourne cover](../assets/references/omarchy-melbourne.png)
+Asset: [Melbourne cover](../../../assets/references/omarchy-melbourne.png)
 
 Strengths:
 
@@ -42,7 +42,7 @@ Risk: supporting copy and icons should be omitted for no-logistics Luma covers u
 
 ### Leiden
 
-Asset: [Leiden cover](../assets/references/omarchy-leiden.png)
+Asset: [Leiden cover](../../../assets/references/omarchy-leiden.png)
 
 Strengths:
 
@@ -55,7 +55,7 @@ Risk: slogans and date/location rails belong to its original brief, not the defa
 
 ## Chengdu approved direction
 
-Asset: [Chengdu pixel-line city](../assets/examples/chengdu/pixel-line-city.png)
+Asset: [Chengdu pixel city](../../../assets/examples/chengdu/pixel-tianfu-snow-city.png)
 
 Keep:
 

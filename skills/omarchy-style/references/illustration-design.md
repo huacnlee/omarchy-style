@@ -126,12 +126,23 @@ Do not assign synthwave, neon, national-flag, or “regional” colors by stereo
 
 ## Typography and branding
 
-- Compose with [the official SVG](../assets/logo.svg); do not ask an image model to invent the wordmark.
+- Compose with [the official SVG](../../../assets/logo.svg); do not ask an image model to invent the wordmark.
 - Keep the wordmark monochrome, sharp, unwarped, and isolated from imagery.
 - Use JetBrains Mono or JetBrainsMono Nerd Font for Latin text.
 - Use a tested monospaced or stable CJK fallback for Chinese.
 - Use pixel display lettering only for short city or event labels.
 - Keep copy direct. Prefer `CHENGDU MEETUP` over invented slogans.
+
+### Local display typography
+
+Keep the official Omarchy wordmark exact. Secondary place names may carry a locally grounded typographic voice when the brief benefits from it.
+
+- Preserve the real structural features of the local writing system rather than forcing every script into a Latin monospace skeleton.
+- Translate those features into Omarchy's hard edges, square grid, restrained palette, and terminal-like rhythm.
+- Localize arrangement as well as glyph shape: Japanese may use vertical native text; Hong Kong may use a compact vertical signboard rhythm; New York may use a stacked slab label; a city with an athletic-lettering tradition may support a restrained arch.
+- Use orientation and layout only when they are readable and culturally plausible. Do not treat vertical writing, calligraphy, seals, varsity letters, or signage as universal regional decoration.
+- Avoid copying protected team, school, transit, venue, or commercial wordmarks. Extract broad construction principles and redraw an original city label.
+- Keep local display type subordinate to the official wordmark and deterministic: generated imagery should not be responsible for final spelling or glyph construction.
 
 ## Image-generation workflow
 

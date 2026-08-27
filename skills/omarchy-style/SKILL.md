@@ -9,7 +9,7 @@ Apply Omarchy's official community design system across visual, interaction, and
 
 ## Required foundation
 
-Read [references/design-system.md](references/design-system.md) completely before changing or creating an Omarchy artifact. Use [assets/logo.svg](assets/logo.svg) whenever the official wordmark appears; never redraw it with a font or ask an image model to reproduce it.
+Read [references/design-system.md](references/design-system.md) completely before changing or creating an Omarchy artifact. Use [assets/logo.svg](../../assets/logo.svg) whenever the official wordmark appears; never redraw it with a font or ask an image model to reproduce it.
 
 ## Route by task
 
@@ -51,7 +51,7 @@ For multi-city sets, keep wordmark scale, safe area, city-label baseline, logica
 - two by default, using different visual modes and compositions;
 - three when multiple verified anchors support equally strong stories.
 
-Different styles are not recolors or crops. Save approved demonstrations under `assets/examples/<city>/` or `assets/examples/<city>-<mode>.<ext>`.
+Different styles are not recolors or crops. Save approved demonstrations under `assets/examples/<city>/` or `assets/examples/<city>-<mode>.<ext>`, and keep the example asset index at `assets/examples/INDEX.md` current.
 
 Every delivered city concept must include a short **local rationale**: the verified anchor, supporting cultural cue, and source of its palette. Prefer affirmative civic, cultural, natural, architectural, scientific, or community narratives. Exclude poverty spectacle, danger, disorder, political conflict, ethnic caricature, stigmatizing neighborhoods, and other negative regional framing unless the user explicitly requests critical documentary work.
 
