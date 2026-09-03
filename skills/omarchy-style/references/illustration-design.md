@@ -146,14 +146,15 @@ Do not assign synthwave, neon, national-flag, or “regional” colors by stereo
 
 - Compose with [the official SVG](../../../assets/logo.svg); do not ask an image model to invent the wordmark.
 - Keep the wordmark monochrome, sharp, unwarped, and isolated from imagery.
-- Use JetBrains Mono or JetBrainsMono Nerd Font for Latin text.
-- Use a tested monospaced or stable CJK fallback for Chinese.
-- Use pixel display lettering only for short city or event labels.
+- Set the city or event label (`CHENGDU MEETUP`) and any short headline in [Omarchy Font](https://github.com/markcuda/Omarchy-Font), uppercase, one color, at an integer pixel size smaller than the wordmark, per design system § 2.5. It shares the wordmark's construction, so the brand band and identity band read as one system.
+- Use JetBrains Mono or JetBrainsMono Nerd Font for every other Latin line: facts, credits, URLs, rails.
+- Use a tested monospaced or stable CJK fallback for Chinese; Omarchy Font covers ASCII only, so a bilingual label pairs it with the CJK face on a shared baseline.
+- Never let the image model letter any of these; compose text after generation.
 - Keep copy direct. Prefer `CHENGDU MEETUP` over invented slogans.
 
 ### Local display typography
 
-Keep the official Omarchy wordmark exact. Secondary place names may carry a locally grounded typographic voice when the brief benefits from it.
+Keep the official Omarchy wordmark exact. Omarchy Font is the default for place names; secondary place names may instead carry a locally grounded typographic voice when the brief benefits from it.
 
 - Preserve the real structural features of the local writing system rather than forcing every script into a Latin monospace skeleton.
 - Translate those features into Omarchy's hard edges, square grid, restrained palette, and terminal-like rhythm.
@@ -170,7 +171,7 @@ Use image generation for the story field, not for exact brand geometry or final 
 2. Prompt for a text-free illustration with reserved brand and identity bands.
 3. Specify the chosen visual mode, logical pixel scale, palette roles, composition, and avoid list.
 4. Inspect anatomy, landmark geometry, local accuracy, palette, and edge treatment.
-5. Compose the official logo and exact text deterministically.
+5. Compose the official logo and exact text deterministically: `logo.svg`, Omarchy Font for the city label, JetBrains Mono for facts.
 6. Verify the final at thumbnail size, 1×, and 2×.
 
 ### Prompt shape

@@ -8,6 +8,7 @@ The repository translates the visual and interaction language of [Omarchy](https
 
 - The official sharp Omarchy wordmark and pixel/ASCII character
 - JetBrains Mono and terminal-native information hierarchy
+- Nerd Font and official `omarchy.ttf` icon-font glyphs as the interface icon language, and the community [Omarchy Font](https://github.com/markcuda/Omarchy-Font) for wordmark-style display lettering
 - Keyboard-first interaction and discoverable shortcuts
 - Strict grids, square geometry, thin borders, and restrained effects
 - Semantic theme colors instead of a fixed “brand green”

@@ -2,7 +2,7 @@
 
 > Brand, interface, website, poster, logo, icon, and keyboard-shortcut guidance for AI and human designers.
 >
-> Version 1.0 · Derived from the Omarchy website, Manual, the official `basecamp/omarchy` repository, and community visual references · 2026-08-27
+> Version 1.1 · Derived from the Omarchy website, Manual, the official `basecamp/omarchy` repository, and community visual references · 2026-09-03
 
 ## 0. How to use this document
 
@@ -55,7 +55,7 @@ An Omarchy artifact should satisfy at least four of these seven conditions:
 ### 2.1 Official wordmark
 
 - Use the official `logo.svg`. Never redraw it manually.
-- The mark follows the pixel/military-display logic of **Delta Corps Priest 1**. The official ASCII wordmark can be generated with `omarchy ascii`.
+- The mark follows the pixel/military-display logic of **Delta Corps Priest 1**. The official ASCII wordmark is [`logo.txt`](https://github.com/basecamp/omarchy/blob/quattro/logo.txt); `omarchy show logo` prints it, and `omarchy transcode ascii <image>` converts other silhouettes.
 - The formal brand name is always **Omarchy**. The graphic wordmark may use its all-caps `OMARCHY` form.
 - Render the wordmark in one solid theme foreground, accent, black, or white. Never add multicolor gradient fills, glow outlines, bevels, stretching, or perspective distortion.
 - Keep pixel edges crisp. Raster exports must use integer scaling and must not introduce bilinear blur.
@@ -79,6 +79,25 @@ An Omarchy artifact should satisfy at least four of these seven conditions:
 - `U+E900` in the private Omarchy icon font is the official Omarchy mark. Product interfaces should use it or the official SVG.
 - Brand icons are monochrome and inherit the current theme's foreground or accent.
 - Do not crop a random letter from the wordmark to invent a new icon. Use the approved compact mark.
+
+### 2.5 Wordmark-style display lettering
+
+[Omarchy Font](https://github.com/markcuda/Omarchy-Font) (family `Omarchy Font`, MIT, a community project by Mark Cuda) is the wordmark's construction as an installable TTF: its `O M A R C H Y` glyphs match `logo.svg` pixel for pixel, and the remaining letters, digits, and ASCII punctuation follow the same Delta Corps Priest 1 rules. Download [`Omarchy Font.ttf`](https://github.com/markcuda/Omarchy-Font/blob/main/Omarchy%20Font.ttf) from that repository when a task needs it; this Skill does not bundle it.
+
+Use it for city and event labels such as `CHENGDU MEETUP`, short poster or hero headlines that must share the wordmark's voice, and live-text renderings of the wordmark in HTML or slides when embedding the SVG is impractical.
+
+- `logo.svg` stays the canonical wordmark. When Omarchy Font sets `OMARCHY`, compare it against the SVG at `1×` before delivery.
+- Uppercase only; the font is unicase. Keep `letter-spacing: 0` and weight `400`; cell spacing is built in, and faux bold, italic, stretching, outlines, and gradients break the pixel grid.
+- Use integer pixel sizes and integer-scaled raster exports so the 1:2 cells land on whole pixels.
+- One solid color per line from `foreground`, `accent`, black, or white.
+- Keep it subordinate to the wordmark: a city label sits below the wordmark, smaller and never heavier.
+- Never use it for body copy, navigation labels, table data, or instructions; ASCII coverage only, so pair CJK text with the CJK face from § 4.1.
+- Credit it as community lettering when provenance is requested; it is not an official Basecamp asset.
+
+```css
+@font-face { font-family: "Omarchy Font"; src: url("Omarchy Font.ttf") format("truetype"); }
+.city-label { font: 400 32px/1 "Omarchy Font", "JetBrains Mono", monospace; letter-spacing: 0; text-transform: uppercase; }
+```
 
 ## 3. Color system
 
@@ -167,9 +186,10 @@ When an artifact needs the official website feel and no theme is specified, use:
 ### 4.1 Font families
 
 - **Product UI, website, documentation, body text, numbers, and shortcuts:** `JetBrains Mono`.
-- **The actual Linux desktop:** `JetBrainsMono Nerd Font`, ensuring Nerd Font glyph support.
-- **Wordmark:** Official SVG or ASCII. Use Delta Corps Priest 1 only to generate related display lettering, never body text.
-- **Brand icons:** The private `omarchy` icon font, only for defined brand glyphs.
+- **The actual Linux desktop:** `JetBrainsMono Nerd Font`, the system `monospace` alias that also supplies every functional UI glyph (§ 6).
+- **Wordmark:** Official SVG or `logo.txt`. Never typeset it in JetBrains Mono or a generic pixel font.
+- **Wordmark-style display lines:** `Omarchy Font`, per § 2.5.
+- **Brand marks:** The private `omarchy` icon font, only for the glyphs it defines (§ 6).
 - Fallback: `"JetBrains Mono", "JetBrainsMono Nerd Font", ui-monospace, monospace`.
 
 Do not corporate-wash Omarchy with Inter, generic sans serif, or serif typography. For CJK text, choose a monospaced or visually stable fallback that aligns with the Latin baseline. Test `Noto Sans Mono CJK` or `Sarasa Mono` on the target platform; do not assume bilingual text aligns automatically.
@@ -246,8 +266,32 @@ Experimental lettering, vintage type, and unofficial logos must be identified as
 
 ## 6. Icon design
 
-- Prefer Nerd Font glyphs or simple monochrome SVGs aligned with the text baseline.
-- Design on a `24 × 24` or `32 × 32` grid with consistent visual weight.
+Omarchy ships no SVG icon set. Every interface icon is a text glyph from one of two fonts:
+
+| Kind | Font | Where it comes from |
+|---|---|---|
+| Functional and object icons: menus, bar, weather, status | `JetBrainsMono Nerd Font` (the system `monospace`) | The icon sets bundled in every [Nerd Font](https://www.nerdfonts.com/cheat-sheet): Material Design Icons `nf-md-*` (`U+F0001`–`U+F1AF0`), Font Awesome `nf-fa-*`, Codicons `nf-cod-*`, Octicons `nf-oct-*`, Devicons `nf-dev-*`, Seti `nf-seti-*`, Weather `nf-weather-*` |
+| Brand marks that Nerd Fonts lacks | Private `omarchy` icon font, `U+E900`–`U+E908` | [`default/fonts/omarchy/omarchy.ttf`](https://github.com/basecamp/omarchy/tree/quattro/default/fonts/omarchy) in the official repository; its README lists every glyph and source. Installed to `/usr/share/fonts/omarchy/omarchy.ttf` |
+
+Menu rows draw `icon` in the menu font; a brand row adds `"iconFont":"omarchy"` ([`docs/menu.md`](https://github.com/basecamp/omarchy/blob/quattro/docs/menu.md)). The bar launcher is `U+E900` in the same font.
+
+Reuse the glyphs the official menu already uses so prototypes match the desktop. The full list is [`default/omarchy/omarchy-menu.jsonc`](https://github.com/basecamp/omarchy/blob/quattro/default/omarchy/omarchy-menu.jsonc); the roots are:
+
+| Row | Codepoint | Nerd Font name | Row | Codepoint | Nerd Font name |
+|---|---|---|---|---|---|
+| Apps | `U+F003B` | `nf-md-apps` | Update | `U+F021` | `nf-fa-refresh` |
+| Learn | `U+F09D1` | `nf-md-brain` | About | `U+EA74` | `nf-cod-info` |
+| Trigger | `U+F14DE` | `nf-md-rocket_launch` | System | `U+F011` | `nf-fa-power_off` |
+| Style | `U+EBCF` | `nf-cod-wand` | Lock | `U+F023` | `nf-fa-lock` |
+| Setup | `U+E615` | `nf-seti-config` | Logout | `U+F0343` | `nf-md-logout` |
+| Install | `U+F0249` | `nf-md-floppy` | Reboot | `U+F0709` | `nf-md-restart` |
+| Remove | `U+F0B4C` | `nf-md-tab_remove` | Shutdown | `U+F0425` | `nf-md-power` |
+
+Brand glyphs in `omarchy.ttf`: `U+E900` Omarchy, `U+E901` Pi, `U+E902` OpenCode, `U+E903` omp, `U+E904` Grok, `U+E905` Codex, `U+E906` LM Studio, `U+E907` Ollama, `U+E908` T3 Code. Agents that Nerd Fonts already covers stay on Nerd Font glyphs: Claude `U+F06C4`, Copilot `U+F4B8`, Gemini `U+F0AE2`.
+
+In HTML prototypes, self-host both fonts with `@font-face` (`JetBrainsMonoNerdFont-Regular.ttf` from the `JetBrainsMono.zip` [Nerd Fonts release](https://github.com/ryanoasis/nerd-fonts/releases), `omarchy.ttf` from the official repository) and place each glyph in a fixed-width span with `aria-hidden="true"` and a text label. When a font cannot ship, inline the same glyph as a monochrome SVG from its origin set at `currentColor` and keep the codepoint in a data attribute. Do not import Simple Icons, Lucide, Heroicons, Font Awesome CSS, Material Symbols, or any other library as the interface icon set.
+
+- Design new glyphs on a `24 × 24` or `32 × 32` grid with consistent visual weight, aligned with the text baseline.
 - Outline icons should use approximately `1.5–2px` strokes. Pixel icons must land on the integer grid.
 - Default to no container, gradient, or shadow. Only application icons require an independent tile.
 - Place menu icons in a fixed-width column so varying glyph widths never move labels.
@@ -255,6 +299,8 @@ Experimental lettering, vintage type, and unofficial logos must be identified as
 - Do not replace functional icons with emoji. Emoji may be user content, not system navigation language.
 
 ### 6.1 Brand glyph sources
+
+Simple Icons is a source for adding marks to the `omarchy` icon font, not a UI icon library. Reach for a new brand glyph only when a Nerd Font glyph would misrepresent the thing: one robot for four AI apps justifies real marks; a folder or microphone does not. See [`agents/skills/icon-font.md`](https://github.com/basecamp/omarchy/blob/quattro/agents/skills/icon-font.md).
 
 - First choose the flat monochrome mark published by the brand. Use a redraw from [Simple Icons](https://simpleicons.org/) only when the brand provides no suitable source.
 - Input must be a monochrome SVG containing exactly one `<path>`. The menu recolors it with the current theme's foreground and selection colors; original colors are discarded.
@@ -534,7 +580,7 @@ Omarchy shortcuts follow a hierarchy:
 - Do not use pixel fonts for body copy.
 - Do not add radius and shadow to every container.
 - Do not stack low-contrast gray text on a dark theme.
-- Do not substitute emoji for functional icons.
+- Do not substitute emoji for functional icons, and do not import a third-party icon library in place of Nerd Font and `omarchy` icon-font glyphs.
 - Do not invent fake terminal output, random hexadecimal strings, or meaningless code rain.
 - Do not generate landmarks unrelated to the stated place or factually incorrect.
 - Do not let decoration cross text, controls, or clickable regions.
@@ -548,7 +594,7 @@ Before generation:
 
 - [ ] The artifact has been classified as brand core, product theme, or community expression.
 - [ ] A target theme and `mode` are specified, or the Tokyo Night website baseline is intentionally selected.
-- [ ] Official logo and icon assets are available rather than reconstructed from memory.
+- [ ] Official logo and icon assets are available rather than reconstructed from memory: `logo.svg`, `omarchy.ttf`, JetBrainsMono Nerd Font, and Omarchy Font when display lettering is needed.
 - [ ] City, date, landmark, sponsor, and shortcut facts have been verified.
 
 During generation:
@@ -601,5 +647,8 @@ This system was derived from the following primary sources. When implementation 
 - [Shell reference](https://github.com/basecamp/omarchy/blob/quattro/docs/omarchy-shell.md): Type scale, spacing, bar dimensions, and Shell tokens.
 - [`Style.qml`, `Button.qml`, `PanelKeyCatcher.qml`, and visual verification guidance](https://github.com/basecamp/omarchy): State priority, single cursor, Vim navigation, tooltips, and visual verification.
 - [Official `logo.svg`](https://github.com/basecamp/omarchy/blob/quattro/logo.svg) and [`logo.txt`](https://github.com/basecamp/omarchy/blob/quattro/logo.txt): Canonical wordmark assets.
+- [Icon font](https://github.com/basecamp/omarchy/tree/quattro/default/fonts/omarchy) and [icon-font agent skill](https://github.com/basecamp/omarchy/blob/quattro/agents/skills/icon-font.md): Brand glyph codepoints, provenance, and the `omarchy dev font` workflow.
+- [Menu definition](https://github.com/basecamp/omarchy/blob/quattro/default/omarchy/omarchy-menu.jsonc): Every functional Nerd Font glyph the desktop uses.
+- [Omarchy Font](https://github.com/markcuda/Omarchy-Font): Community MIT TTF of the wordmark lettering for display lines.
 - [Official theme palettes](https://github.com/basecamp/omarchy/tree/quattro/themes): Tokyo Night, Gruvbox, Catppuccin, Kanagawa, Osaka Jade, Flexoki Light, and others.
 - User-provided official and community references: City posters, installer, wordmark, top bar, notifications, weather, plugin marketplace, domain widgets, dense applications, and multi-theme desktops.
