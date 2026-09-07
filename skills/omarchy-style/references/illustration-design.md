@@ -144,8 +144,8 @@ Do not assign synthwave, neon, national-flag, or “regional” colors by stereo
 
 ## Typography and branding
 
-- Compose with [the official SVG](../../../assets/logo.svg); do not ask an image model to invent the wordmark.
-- Keep the wordmark monochrome, sharp, unwarped, and isolated from imagery.
+- Compose with an official asset — the brand [`omarchy-wordmark.svg`](https://omarchy.org/brand/omarchy-wordmark.svg), or [the bundled OS SVG](../../../assets/logo.svg) for desktop-reproducing work. Do not ask an image model to invent the wordmark. To recolor, mask the asset over the fill rather than editing it.
+- Keep the wordmark sharp, unwarped, and isolated from imagery, in one solid color or the official five-band ramp (design system § 3.4). No other gradient, glow, or bevel.
 - Set the city or event label (`CHENGDU MEETUP`) and any short headline in [Omarchy Font](https://github.com/markcuda/Omarchy-Font), uppercase, one color, at an integer pixel size smaller than the wordmark, per design system § 2.5. It shares the wordmark's construction, so the brand band and identity band read as one system.
 - Use JetBrains Mono or JetBrainsMono Nerd Font for every other Latin line: facts, credits, URLs, rails.
 - Use a tested monospaced or stable CJK fallback for Chinese; Omarchy Font covers ASCII only, so a bilingual label pairs it with the CJK face on a shared baseline.
@@ -171,7 +171,7 @@ Use image generation for the story field, not for exact brand geometry or final 
 2. Prompt for a text-free illustration with reserved brand and identity bands.
 3. Specify the chosen visual mode, logical pixel scale, palette roles, composition, and avoid list.
 4. Inspect anatomy, landmark geometry, local accuracy, palette, and edge treatment.
-5. Compose the official logo and exact text deterministically: `logo.svg`, Omarchy Font for the city label, JetBrains Mono for facts.
+5. Compose the official logo and exact text deterministically: an official wordmark asset, Omarchy Font for the city label, JetBrains Mono for facts.
 6. Verify the final at thumbnail size, 1×, and 2×.
 
 ### Prompt shape

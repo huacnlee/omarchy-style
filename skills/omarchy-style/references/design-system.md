@@ -56,16 +56,37 @@ An Omarchy artifact should satisfy at least four of these seven conditions:
 
 ### 2.1 Official wordmark
 
-- Use the official `logo.svg`. Never redraw it manually.
-- The mark follows the pixel/military-display logic of **Delta Corps Priest 1**. The official ASCII wordmark is [`logo.txt`](https://github.com/basecamp/omarchy/blob/quattro/logo.txt); `omarchy show logo` prints it, and `omarchy transcode ascii <image>` converts other silhouettes.
+The wordmark is an **81 × 19 pixel bitmap**, and every official rendering is that same bitmap on a different cell:
+
+| Asset | Cell | Use |
+|---|---|---|
+| [`omarchy-wordmark.svg`](https://omarchy.org/brand/omarchy-wordmark.svg) | `51 × 50`, 211 rects | Brand and web asset; the current canonical wordmark |
+| `logo.svg` in the operating-system repository | `15 × 15` square | Shipped with the OS; also bundled here as [assets/logo.svg](../../../assets/logo.svg) |
+
+Both are correct. The brand asset's slightly wide cell is why its aspect ratio is `4131 / 950` rather than square-cell `1215 / 285`. Match the surrounding system: the brand asset on the web and in brand artwork, the OS asset where the desktop itself renders it.
+
+- Use an official asset. **Never redraw the wordmark**, typeset it in a font, or ask an image model to reproduce it.
+- To recolor it, wear it as a **mask over `currentColor`** rather than editing the file. One source of truth for the 211 rects, and the fill becomes a theme token:
+
+  ```css
+  .wordmark {
+    aspect-ratio: 4131 / 950;
+    background-color: currentColor;           /* or a background-image gradient */
+    mask: url(/brand/omarchy-wordmark.svg) no-repeat;
+    mask-size: 100% 100%;
+  }
+  ```
+
 - The formal brand name is always **Omarchy**. The graphic wordmark may use its all-caps `OMARCHY` form.
-- Render the wordmark in one solid theme foreground, accent, black, or white. Never add multicolor gradient fills, glow outlines, bevels, stretching, or perspective distortion.
+- Render it in one solid color — a theme foreground, the theme brand color, black, or white — **or** in the official five-band brand ramp of § 3.4. No other gradient, no glow outline, bevel, stretch, or perspective distortion.
 - Keep pixel edges crisp. Raster exports must use integer scaling and must not introduce bilinear blur.
+- The mark follows the pixel/military-display logic of **Delta Corps Priest 1**. The official ASCII wordmark is [`logo.txt`](https://github.com/omacom/omarchy/blob/master/logo.txt); `omarchy show logo` prints it, and `omarchy transcode ascii <image>` converts other silhouettes.
+- Omarchy is a **pending trademark**, held by the Omacom Foundation. Community work may use the name and marks responsibly; it must not imply that it is Omarchy itself, the Foundation, or an authorized representative.
 
 ### 2.2 Clear space and minimum size
 
 - Let `x` equal the width of one vertical pixel stroke in the wordmark. Preserve at least `2x` clear space on every side.
-- The complete wordmark should be at least `160px` wide in digital interfaces. Below that size, use the official Omarchy icon or the plain-text name.
+- The complete wordmark should be at least `160px` wide in digital interfaces — roughly two device pixels per lattice column across its 81 columns, which is the floor for crisp edges. Below that, use a compact mark or the plain-text name.
 - A poster wordmark may occupy `68–90%` of the canvas width, but it must not touch the edge. Keep at least one body-text line-height between it and the city or event name.
 - Never overlap the wordmark with people, buildings, window borders, or other text.
 
@@ -76,11 +97,16 @@ An Omarchy artifact should satisfy at least four of these seven conditions:
 - Custom ASCII art should use single-column characters. Emoji and double-width characters break the grid and should not form structural artwork.
 - When converting an image, use a crisp silhouette with high contrast. Do not convert a complex photograph directly to ASCII.
 
-### 2.4 Compact icon
+### 2.4 Compact icon and the OMA mark
 
-- `U+E900` in the private Omarchy icon font is the official Omarchy mark. Product interfaces should use it or the official SVG.
-- Brand icons are monochrome and inherit the current theme's foreground or accent.
-- Do not crop a random letter from the wordmark to invent a new icon. Use the approved compact mark.
+Two square marks accompany the wordmark, both published at [omarchy.org/brand](https://omarchy.org/brand/):
+
+- **Omarchy logo** — [`omarchy-logo.svg`](https://omarchy.org/brand/omarchy-logo.svg), a square-spiral glyph on a `1200 × 1200` box, drawn as one even-odd path. The favicon comes from this same path, so the two cannot drift. `U+E900` in the private Omarchy icon font is its in-product equivalent.
+- **OMA logo** — [`oma-logo.svg`](https://omarchy.org/brand/oma-logo.svg), the Omacom Foundation mark on an `800 × 800` box, filled with the five-band ramp of § 3.4. Use it for Foundation contexts, not as a substitute for the Omarchy mark.
+
+- Fill a brand mark with `currentColor` so it inherits the theme, or with the five-band ramp. Do not recolor it arbitrarily.
+- Do not crop a letter from the wordmark to invent a new icon. Use an approved mark.
+- Below the wordmark's minimum width, use a compact mark or the plain-text name.
 
 ### 2.5 Wordmark-style display lettering
 
@@ -94,7 +120,7 @@ Use it for city and event labels such as `CHENGDU MEETUP`, short poster or hero 
 - One solid color per line from `foreground`, `accent`, black, or white.
 - Keep it subordinate to the wordmark: a city label sits below the wordmark, smaller and never heavier.
 - Never use it for body copy, navigation labels, table data, or instructions; ASCII coverage only, so pair CJK text with the CJK face from § 4.1.
-- Credit it as community lettering when provenance is requested; it is not an official Basecamp asset.
+- Credit it as community lettering when provenance is requested; it is not an official Omacom Foundation asset.
 
 ```css
 @font-face { font-family: "Omarchy Font"; src: url("Omarchy Font.ttf") format("truetype"); }
@@ -105,7 +131,7 @@ Use it for city and event labels such as `CHENGDU MEETUP`, short poster or hero 
 
 ### 3.1 Stable brand, variable themes
 
-Omarchy does not have one permanent “brand green” for every context. The current website uses a Tokyo Night family palette, while the operating system can retint terminals, window borders, editors, browsers, the top bar, menus, notifications, OSDs, and the lock screen together. Future work must model color through semantic roles.
+Omarchy green `#9ECE6A` is the **default** brand color, not a permanent one. It is what Tokyo Night — the default theme — assigns to the brand role, and the operating system retints terminals, window borders, editors, browsers, the top bar, menus, notifications, OSDs, and the lock screen together when the user picks another theme. The website does the same across its 22 themes: the brand role is green in Tokyo Night, blue in Catppuccin, teal in Gruvbox, orange in Matte Black. Model color through semantic roles, and never bind a component to the green.
 
 Every theme should define at least:
 
@@ -159,18 +185,43 @@ An application that reads the user's live theme must handle both the ANSI `color
 
 ### 3.3 Website baseline palette
 
-When an artifact needs the official website feel and no theme is specified, use:
+The website carries **22 themes**, each mixed from an official `themes/<id>/colors.toml`, and its brand color is whatever the active theme sets: green in Tokyo Night, blue in Catppuccin, teal in Gruvbox, orange in Matte Black. Design against the roles, not these numbers. Tokyo Night is the default, and its values are the fallback when no theme is specified:
 
-- **Night Canvas** `#1A1B26`: Main page background.
-- **Storm Surface** `#24283B`: Code blocks and raised surfaces.
-- **Terminal Blue** `#7AA2F7`: Buttons, links, and primary emphasis.
-- **Terminal White** `#C0CAF5`: Body copy and high-contrast text.
-- **Omarchy Green** `#9ECE6A`: ASCII wordmark, numbering, and list markers.
-- **Terminal Cyan** `#7DCFFF`: Bright informational links. The system theme's cyan may be darker; use this value for the website presentation.
-- **Muted Terminal** `#414868`: Borders, comments, and low-level information.
-- **Pure White** `#FFFFFF`: Highest-level headings or hover peaks only; never a large dark-theme surface.
+| Role | Value | Use |
+|---|---|---|
+| `bg-deep` | `#13141C` | Deepest ground: code blocks, hero field |
+| `bg` | `#1A1B26` | Page canvas |
+| `surface` | `#1F2230` | Raised cards |
+| `surface-2` | `#24283B` | Secondary and hover surfaces, inline code |
+| `border-subtle` | `#24283B` | Hairline separators |
+| `border-strong` | `#414868` | Visible control edges, link underlines |
+| `text` | `#C0CAF5` | Body copy and headings |
+| `text-secondary` | `#A9B1D6` | Descriptions and prose body |
+| `text-muted` | `#8B93B8` | List markers, metadata, anchors |
+| `brand` | `#9ECE6A` | Primary action, focus ring, brand artwork |
+| `brand-soft` | `#9ECE6A1F` | 12%-alpha brand wash |
+| `brand-ink` | `#0C0E10` | Text on a filled brand surface |
+| `selection` | `#292E42` | Text selection ground |
 
-### 3.4 Community poster color
+**Omarchy green `#9ECE6A` is the default brand color, not a permanent one.** Do not hard-code it into a component; resolve it through the brand role so every theme works. Full web rules are in [Web Design](web-design.md).
+
+### 3.4 The five-band brand ramp
+
+Brand artwork has one approved gradient: a five-step ramp of the theme's brand hue, applied vertically with **hard stops**, never a smooth blend.
+
+| Band | Tokyo Night | Stop |
+|---|---|---|
+| `field-crest` | `#DAECC6` | 0 – 26.316% |
+| `field-hover` | `#BBDD97` | 26.316 – 36.842% |
+| `field-lit` | `#9ECE6A` | 36.842 – 57.895% |
+| `field-mid` | `#678549` | 57.895 – 73.684% |
+| `field-dim` | `#39482E` | 73.684 – 100% |
+
+The stops are wordmark rows: 5, 2, 4, 3 and 5 of its 19. That is why the ramp lands on pixel boundaries when it dresses the wordmark, and why the same ramp fills the OMA mark and the hero field. The official brand page bakes the active theme's ramp into its downloadable assets.
+
+Use it on brand artwork only — wordmark, marks, hero field. It is not a decorative gradient for cards, buttons, headlines, or posters.
+
+### 3.5 Community poster color
 
 - Choose one parent theme per poster: black-and-green terminal, Tokyo Night blue, sunset magenta/orange, regional flag colors, or a local nightscape palette.
 - Use **one primary accent plus no more than two supporting status colors**. Imagery may contain more color, but text and framework remain constrained.
@@ -178,7 +229,7 @@ When an artifact needs the official website feel and no theme is specified, use:
 - Use a flag only in a clearly relevant regional context. Do not force its colors across every UI element.
 - Local pixel dithering, scanlines, and grain are allowed. Avoid blurry neon outer glow.
 
-### 3.5 Contrast and state
+### 3.6 Contrast and state
 
 - Body copy must meet WCAG AA against its background. Small text and shortcut hints should reach at least `4.5:1`.
 - Focus must not rely on color alone. Combine color with border, fill, cursor, or weight.
@@ -189,13 +240,13 @@ When an artifact needs the official website feel and no theme is specified, use:
 
 ### 4.1 Font families
 
-- **Website and documentation baseline:** `JetBrains Mono`.
+- **Website and documentation:** a two-family pairing with the roles reversed from the usual convention — `JetBrains Mono` for body copy, UI labels and controls, and `Geist` for `h1`–`h6` **only**. Monospace is the page's voice; the sans-serif keeps headings from shouting in a typewriter face. Do not invert this, and do not set the whole site in one family. See [Web Design § 3](web-design.md#3-typography).
 - **Shell UI:** the system `monospace` alias (`Style.font.family`), resolved by fontconfig and changeable by the user. Menu surfaces may use `OMARCHY_MENU_FONT`. Do not hard-code a particular Nerd Font family into every application.
 - **Linux desktop default font installation:** `JetBrainsMono Nerd Font`; use the configured alias so user font changes and Nerd Font glyphs remain supported (§ 6).
 - **Wordmark:** Official SVG or `logo.txt`. Never typeset it in JetBrains Mono or a generic pixel font.
 - **Wordmark-style display lines:** `Omarchy Font`, per § 2.5.
 - **Brand marks:** The private `omarchy` icon font, only for the glyphs it defines (§ 6).
-- Fallback: `"JetBrains Mono", "JetBrainsMono Nerd Font", ui-monospace, monospace`.
+- Fallbacks: `"JetBrains Mono", "JetBrainsMono Nerd Font", ui-monospace, monospace` for the mono role; `Geist, ui-sans-serif, system-ui, sans-serif` for web headings.
 
 Preserve the configured shell typography for faithful Linux reproduction. For a cross-platform application, honor an explicit project font choice (such as `.SystemUIFont`) and verify its metrics; document it as a port choice, not an upstream default. For CJK text, choose a monospaced or visually stable fallback that aligns with the Latin baseline. Test `Noto Sans Mono CJK` or `Sarasa Mono` on the target platform; do not assume bilingual text aligns automatically.
 
@@ -214,7 +265,7 @@ The following are baseline values at `[font] base-size = 12`, not permanent pixe
 | `display` | `24px` | Status numbers and important results |
 | `display-large` | `28px` | Large status or supporting brand display |
 
-- Website body copy should use approximately `clamp(13px, 1.25vw, 16px)`, `1.4–1.5` line-height, and a maximum measure of `68ch`.
+- Website body copy is `15px` at `1.65` line-height in the secondary text color, with a `48rem` measure applied per block. Section headings are `1.5rem`, rising to `1.75rem` at the `sm` breakpoint.
 - Establish hierarchy through weight, color, and spacing rather than enormous type.
 - Use monospaced numerals for dates, temperatures, progress, and system state so columns remain aligned.
 
@@ -222,7 +273,7 @@ The following are baseline values at `[font] base-size = 12`, not permanent pixe
 
 - Normal shell Button text is regular; `selected` makes it bold. Section headings and Toggle titles are bold. Use weight according to hierarchy and component state, not a blanket rule that every button or link is bold.
 - Product menus use natural title or sentence case: `File manager`, `Default Browser`, `With desktop audio`.
-- Website buttons may use uppercase with compact labels: `MANUAL`, `ISO`, `GITHUB`.
+- The brand display device is a wordmark with a letterspaced uppercase label beneath it: weight 500, `letter-spacing: 0.18em`, brand color, `12px` rising to `14px`. Pad the line left by the tracking amount so the trailing letter-space does not pull it off center.
 - `OMARCHY` may be uppercase in posters. City names, dates, and event names may also be uppercase, but body copy should not be.
 - Do not fake futurism with excessive tracking. Use controlled letter spacing only for short place names, metadata, or pixel subtitles.
 
@@ -276,11 +327,11 @@ The shell’s shared functional icons use font glyphs rather than a bundled SVG 
 | Kind | Font | Where it comes from |
 |---|---|---|
 | Functional and object icons: menus, bar, weather, status | `JetBrainsMono Nerd Font` (the system `monospace`) | The icon sets bundled in every [Nerd Font](https://www.nerdfonts.com/cheat-sheet): Material Design Icons `nf-md-*` (`U+F0001`–`U+F1AF0`), Font Awesome `nf-fa-*`, Codicons `nf-cod-*`, Octicons `nf-oct-*`, Devicons `nf-dev-*`, Seti `nf-seti-*`, Weather `nf-weather-*` |
-| Brand marks that Nerd Fonts lacks | Private `omarchy` icon font, `U+E900`–`U+E908` | [`default/fonts/omarchy/omarchy.ttf`](https://github.com/basecamp/omarchy/tree/quattro/default/fonts/omarchy) in the official repository; its README lists every glyph and source. Installed to `/usr/share/fonts/omarchy/omarchy.ttf` |
+| Brand marks that Nerd Fonts lacks | Private `omarchy` icon font, `U+E900`–`U+E908` | [`default/fonts/omarchy/omarchy.ttf`](https://github.com/omacom/omarchy/tree/quattro/default/fonts/omarchy) in the official repository; its README lists every glyph and source. Installed to `/usr/share/fonts/omarchy/omarchy.ttf` |
 
-Menu rows draw `icon` in the menu font; a brand row adds `"iconFont":"omarchy"` ([`docs/menu.md`](https://github.com/basecamp/omarchy/blob/quattro/docs/menu.md)). The bar launcher is `U+E900` in the same font.
+Menu rows draw `icon` in the menu font; a brand row adds `"iconFont":"omarchy"` ([`docs/menu.md`](https://github.com/omacom/omarchy/blob/quattro/docs/menu.md)). The bar launcher is `U+E900` in the same font.
 
-Reuse the glyphs the official menu already uses so prototypes match the desktop. The full list is [`default/omarchy/omarchy-menu.jsonc`](https://github.com/basecamp/omarchy/blob/quattro/default/omarchy/omarchy-menu.jsonc); the roots are:
+Reuse the glyphs the official menu already uses so prototypes match the desktop. The full list is [`default/omarchy/omarchy-menu.jsonc`](https://github.com/omacom/omarchy/blob/quattro/default/omarchy/omarchy-menu.jsonc); the roots are:
 
 | Row | Codepoint | Nerd Font name | Row | Codepoint | Nerd Font name |
 |---|---|---|---|---|---|
@@ -305,7 +356,7 @@ In HTML prototypes, self-host both fonts with `@font-face` (`JetBrainsMonoNerdFo
 
 ### 6.1 Brand glyph sources
 
-Simple Icons is a source for adding marks to the `omarchy` icon font, not a UI icon library. Reach for a new brand glyph only when a Nerd Font glyph would misrepresent the thing: one robot for four AI apps justifies real marks; a folder or microphone does not. See [`agents/skills/icon-font.md`](https://github.com/basecamp/omarchy/blob/quattro/agents/skills/icon-font.md).
+Simple Icons is a source for adding marks to the `omarchy` icon font, not a UI icon library. Reach for a new brand glyph only when a Nerd Font glyph would misrepresent the thing: one robot for four AI apps justifies real marks; a folder or microphone does not. See [`agents/skills/icon-font.md`](https://github.com/omacom/omarchy/blob/quattro/agents/skills/icon-font.md).
 
 - First choose the flat monochrome mark published by the brand. Use a redraw from [Simple Icons](https://simpleicons.org/) only when the brand provides no suitable source.
 - Input must be a monochrome SVG containing exactly one `<path>`. The menu recolors it with the current theme's foreground and selection colors; original colors are discarded.
@@ -445,18 +496,22 @@ Shell reproduction follows [Design Guides](design-guides.md). For a native appli
 
 ## 8. Website design
 
-- Preferred page sequence: ASCII/official wordmark → one-line proposition → core entry points → real product demonstration or content.
+Read [Web Design](web-design.md) in full before building or reviewing a page. It carries the source-audited token architecture, the pixel lattice, the type pairing, layout measures, the button recipe and the prose rules. This section holds only the composition principles.
+
+- Preferred page sequence: wordmark or ASCII mark → one-line proposition → core entry points → real product demonstration or content.
 - A homepage may center the wordmark. Content and tool pages should use left alignment and a clear grid.
 - Large navigation sets may wrap naturally. Preserve even gaps and avoid stranding the last button awkwardly.
-- Links use the accent and retain underlines; hover lifts them to bright foreground.
+- **Documentation links are body-colored with a low-contrast underline; hover changes the underline to the brand color.** Do not color prose links with the accent — that rule belongs to the shell, not the site.
 - Documentation sidebars use zero-padded chapter numbers, low-contrast default entries, and a high-contrast current entry.
 - Content headings should be only `1.1–1.75×` body size. Technical documentation does not need giant marketing headlines.
-- Prefer square bounds for body images; slight clipping radius is optional when deliberately chosen. Keep posters, pixel art, and logos free of automatic rounded clipping.
+- Keep body images square-bounded; the radius scale is zero site-wide. Keep posters, pixel art, and logos free of automatic rounded clipping.
 - Desktop sidebars may be sticky. Mobile hides the sidebar but retains search and chapter navigation access.
+- Unlike the shell, the site's primary action **is** a solid brand fill. Do not carry that back into desktop UI, and do not carry the shell's transparent button onto the site.
 
 ## 9. Motion and feedback
 
-- Source timing is component-specific: Button `120ms`, CursorSurface `60ms`, Toggle `100ms`, switch travel `120ms`, PopupCard opacity `140ms`. Use the actual component as reference; there is no universal shell `150ms` transition.
+- Shell timing is component-specific: Button `120ms`, CursorSurface `60ms`, Toggle `100ms`, switch travel `120ms`, PopupCard opacity `140ms`. Use the actual component as reference; there is no universal shell `150ms` transition.
+- The **website** does standardize on `150ms ease-out` for color, border, shadow and transform, with a `scale(0.96)` press on buttons. Theme switching suppresses all transitions so the palette does not smear. Do not apply the site's figure to shell work or the reverse.
 - Window entry may use a quick `popin` from approximately `87% → 100%`; exit should be faster.
 - Favor inexpensive, short state transitions in a port. The QML source also animates color and some position/size properties; do not mislabel a web performance recommendation as an upstream restriction. Avoid continuous decoration.
 - Approved brand micro-motion: a brief green glint crossing ASCII art every few seconds, followed by complete stillness.
@@ -650,14 +705,16 @@ This system was derived from the following primary sources. When implementation 
 - [Making your own theme](https://omarchy.org/manual/making-your-own-theme/): Theme structure, cross-application color synchronization, and repository naming.
 - [Omarchy CLI](https://omarchy.org/manual/omarchy-cli/): Command and menu-route model.
 - [Shell Plugins](https://omarchy.org/manual/shell-plugins/): Plugin kinds, namespaces, installation safety, and user extension model.
-- [Official source repository](https://github.com/basecamp/omarchy): `logo.svg`, `logo.txt`, themes, Hyprland, Shell, menu, and icon font.
-- [Theming reference](https://github.com/basecamp/omarchy/blob/quattro/docs/theming.md): `colors.toml` semantics, Shell control states, and theme rendering.
-- [Menu reference](https://github.com/basecamp/omarchy/blob/quattro/docs/menu.md): Menu IDs, providers, guards, and selected/disabled behavior.
-- [Shell reference](https://github.com/basecamp/omarchy/blob/quattro/docs/omarchy-shell.md): Type scale, spacing, bar dimensions, and Shell tokens.
-- [`Style.qml`, `Button.qml`, `PanelKeyCatcher.qml`, and visual verification guidance](https://github.com/basecamp/omarchy): State priority, single cursor, Vim navigation, tooltips, and visual verification.
-- [Official `logo.svg`](https://github.com/basecamp/omarchy/blob/quattro/logo.svg) and [`logo.txt`](https://github.com/basecamp/omarchy/blob/quattro/logo.txt): Canonical wordmark assets.
-- [Icon font](https://github.com/basecamp/omarchy/tree/quattro/default/fonts/omarchy) and [icon-font agent skill](https://github.com/basecamp/omarchy/blob/quattro/agents/skills/icon-font.md): Brand glyph codepoints, provenance, and the `omarchy dev font` workflow.
-- [Menu definition](https://github.com/basecamp/omarchy/blob/quattro/default/omarchy/omarchy-menu.jsonc): Every functional Nerd Font glyph the desktop uses.
+- [Official source repository](https://github.com/omacom/omarchy): `logo.svg`, `logo.txt`, themes, Hyprland, Shell, menu, and icon font. The project moved from `basecamp/omarchy` to the Omacom Foundation's `omacom/omarchy`; old links redirect.
+- [Brand assets](https://omarchy.org/brand/): Wordmark, Omarchy logo, and OMA logo in SVG and 4096 px PNG, exported in the visitor's current theme.
+- [Website source](https://github.com/omacom/omarchy-site): Theme tokens, pixel lattice, type pairing, component recipes, and prose styles.
+- [Theming reference](https://github.com/omacom/omarchy/blob/quattro/docs/theming.md): `colors.toml` semantics, Shell control states, and theme rendering.
+- [Menu reference](https://github.com/omacom/omarchy/blob/quattro/docs/menu.md): Menu IDs, providers, guards, and selected/disabled behavior.
+- [Shell reference](https://github.com/omacom/omarchy/blob/quattro/docs/omarchy-shell.md): Type scale, spacing, bar dimensions, and Shell tokens.
+- [`Style.qml`, `Button.qml`, `PanelKeyCatcher.qml`, and visual verification guidance](https://github.com/omacom/omarchy): State priority, single cursor, Vim navigation, tooltips, and visual verification.
+- [Official `logo.svg`](https://github.com/omacom/omarchy/blob/quattro/logo.svg) and [`logo.txt`](https://github.com/omacom/omarchy/blob/quattro/logo.txt): Canonical wordmark assets.
+- [Icon font](https://github.com/omacom/omarchy/tree/quattro/default/fonts/omarchy) and [icon-font agent skill](https://github.com/omacom/omarchy/blob/quattro/agents/skills/icon-font.md): Brand glyph codepoints, provenance, and the `omarchy dev font` workflow.
+- [Menu definition](https://github.com/omacom/omarchy/blob/quattro/default/omarchy/omarchy-menu.jsonc): Every functional Nerd Font glyph the desktop uses.
 - [Omarchy Font](https://github.com/markcuda/Omarchy-Font): Community MIT TTF of the wordmark lettering for display lines.
-- [Official theme palettes](https://github.com/basecamp/omarchy/tree/quattro/themes): Tokyo Night, Gruvbox, Catppuccin, Kanagawa, Osaka Jade, Flexoki Light, and others.
+- [Official theme palettes](https://github.com/omacom/omarchy/tree/quattro/themes): Tokyo Night, Gruvbox, Catppuccin, Kanagawa, Osaka Jade, Flexoki Light, and others.
 - User-provided official and community references: City posters, installer, wordmark, top bar, notifications, weather, plugin marketplace, domain widgets, dense applications, and multi-theme desktops.

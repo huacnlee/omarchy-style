@@ -9,13 +9,19 @@ Apply Omarchy's official community design system across visual, interaction, and
 
 ## Required foundation
 
-Read [references/design-system.md](references/design-system.md) completely before changing or creating an Omarchy artifact. Use [assets/logo.svg](../../assets/logo.svg) whenever the official wordmark appears; never redraw it with a font or ask an image model to reproduce it.
+Read [references/design-system.md](references/design-system.md) completely before changing or creating an Omarchy artifact.
 
-Three external fonts complete the faithful shell/brand type and icon system; fetch them from their sources when a task needs them:
+Never redraw the wordmark, typeset it in a font, or ask an image model to reproduce it. Use an official asset and recolor it by masking, per design system § 2.1:
+
+- [`omarchy-wordmark.svg`](https://omarchy.org/brand/omarchy-wordmark.svg) — the canonical brand and web wordmark. Also [`omarchy-logo.svg`](https://omarchy.org/brand/omarchy-logo.svg) and the Foundation's [`oma-logo.svg`](https://omarchy.org/brand/oma-logo.svg).
+- [assets/logo.svg](../../assets/logo.svg) — the same 81 × 19 bitmap on the operating system's square cell, for artifacts that reproduce the desktop.
+
+External fonts complete the type and icon system; fetch them from their sources when a task needs them:
 
 - [Omarchy Font](https://github.com/markcuda/Omarchy-Font) (community, MIT) for wordmark-style display lines such as city labels and short headlines (design system § 2.5).
 - `JetBrainsMono Nerd Font` for text and every functional UI icon; Omarchy has no SVG icon set (design system § 6).
-- The official [`omarchy.ttf`](https://github.com/basecamp/omarchy/tree/quattro/default/fonts/omarchy) icon font for the Omarchy mark and agent brand glyphs, `U+E900`–`U+E908` (design system § 6).
+- The official [`omarchy.ttf`](https://github.com/omacom/omarchy/tree/quattro/default/fonts/omarchy) icon font for the Omarchy mark and agent brand glyphs, `U+E900`–`U+E908` (design system § 6).
+- `Geist` for web headings only; body copy and controls on the site stay in `JetBrains Mono` (design system § 4.1).
 
 ## UI foundation
 
@@ -32,10 +38,10 @@ Distinguish upstream facts, design recommendations, and explicit platform/user a
 | UI, settings, shell, panels, states | Design Guides in full, then design system §§ 3–7 and 13–15 |
 | Desktop application, component library, gallery | Design Guides, then Application Design in full |
 | Reading or deriving a theme from `colors.toml` | Application Design § 1, then design system § 3 |
-| Website or documentation layout | Design system §§ 3–4, 7–10, and 13–15 |
+| Website or documentation layout | [Web Design](references/web-design.md) in full, then design system §§ 3–4, 8, 10 and 13–15 |
 | Product copy, labels, menus, naming | Design system §§ 10–11 |
 | Keyboard shortcuts or hint rails | Design system § 12; verify existing bindings before proposing new ones |
-| Logo, icon, or glyph | Design system §§ 2 and 6; use `logo.svg`, Nerd Font glyphs, and `omarchy.ttf`, never an icon CDN or a redraw |
+| Logo, icon, or glyph | Design system §§ 2, 3.4 and 6; use an official brand asset, Nerd Font glyphs, and `omarchy.ttf`, never an icon CDN or a redraw |
 | Poster, illustration, city cover | Read [references/illustration-design.md](references/illustration-design.md) in addition to the design system |
 | Theme or palette | Design Guides theme resolution and scaling, then design system § 3 and Application Design § 1; include shell surface/state/size overrides and derived roles, not only colors |
 
@@ -61,6 +67,8 @@ Do not reduce Omarchy to black plus neon green. Do not substitute generic SaaS, 
 
 For Luma-style event covers, default to a 1:1 square. Omit dates, times, venues, URLs, QR codes, and organizer details unless explicitly requested. Default cover text is the official wordmark plus `<CITY> MEETUP`.
 
+The official fallback cover is the baseline to depart from deliberately, not to ignore. On a square canvas: the deep background, everything in the theme's brand color, the wordmark and its label centered as one stack with a gap of about `8%` and side padding of `10%`. The label is monospaced uppercase at `0.28em` tracking, padded left by that same amount so it stays optically centered, and sized to the canvas rather than fixed. Decoration is two nested corner rules in opposite corners at roughly `22%` and `35%` opacity, plus a few small squares stepping diagonally at `20%`. Nothing else.
+
 For multi-city sets, keep wordmark scale, safe area, city-label baseline, logical pixel scale, and semantic palette structure consistent. Preserve the user's city labels. Create 1–3 genuinely different covers per city:
 
 - one when references support one dominant idea;
@@ -69,6 +77,8 @@ For multi-city sets, keep wordmark scale, safe area, city-label baseline, logica
 
 Different styles are not recolors or crops. Save approved demonstrations under `assets/meetup/<city>-<mode>.<ext>`, and keep the example asset index at `assets/meetup/INDEX.md` current.
 
+Meetups are community events. The official rules are that anyone may organize one anywhere, no city is owned, and `Omarchy <City>` is an acceptable name — but artwork and copy must not imply that the event is Omarchy itself, the Omacom Foundation, or an authorized representative, and must not present a community meetup as an official or endorsed event. Do not add Foundation marks, sponsorship claims, or official-sounding badges that were not requested.
+
 Every delivered city concept must include a short **local rationale**: the verified anchor, supporting cultural cue, and source of its palette. Prefer affirmative civic, cultural, natural, architectural, scientific, or community narratives. Exclude poverty spectacle, danger, disorder, political conflict, ethnic caricature, stigmatizing neighborhoods, and other negative regional framing unless the user explicitly requests critical documentary work.
 
 ## Delivery check
@@ -76,6 +86,8 @@ Every delivered city concept must include a short **local rationale**: the verif
 Before declaring completion, verify the relevant checklist in the design system plus these invariants:
 
 - official assets are exact and unobstructed, and display lettering is Omarchy Font or JetBrains Mono, not an image-model rendering;
+- the wordmark is an official asset recolored by masking — one solid theme color or the five-band ramp, never a redraw or an invented gradient;
+- a web artifact resolves every color through a theme token, sets headings in Geist and everything else in JetBrains Mono, and reads correctly in a light theme and a non-green theme;
 - text, names, dates, behavior, and shortcuts are accurate;
 - theme colors have semantic roles;
 - composition, intrinsic control sizes, scale, and state hierarchy follow the Design Guides; square corners remain recommended and explicit theme/user overrides are respected;

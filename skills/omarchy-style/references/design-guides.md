@@ -2,7 +2,7 @@
 
 These guides govern Omarchy-inspired application and shell design. Read them alongside the brand and theme definitions in [design-system.md](design-system.md). They are about the whole interface: composition, proportions, information hierarchy, interaction, and the relationship between controls. A palette and a component inventory do not establish the intended visual character.
 
-Source baseline: the user-provided `~/github/omarchy` checkout, clean at commit [`945549699026df6c888a6b1bd4e06fbf55a67595`](https://github.com/basecamp/omarchy/tree/945549699026df6c888a6b1bd4e06fbf55a67595), inspected 2026-09-07. Values below describe this revision, not permanent limits. Recheck changed upstream files when updating the baseline. **Source facts** identify implemented behavior; **design guidance** applies that behavior to new interfaces. Explicit user choices take precedence, and a platform adaptation must not be presented as an upstream default.
+Source baseline: the user-provided `~/github/omarchy` checkout, clean at commit [`945549699026df6c888a6b1bd4e06fbf55a67595`](https://github.com/omacom/omarchy/tree/945549699026df6c888a6b1bd4e06fbf55a67595), inspected 2026-09-07. Values below describe this revision, not permanent limits. Recheck changed upstream files when updating the baseline. **Source facts** identify implemented behavior; **design guidance** applies that behavior to new interfaces. Explicit user choices take precedence, and a platform adaptation must not be presented as an upstream default.
 
 ## Design thesis
 
@@ -49,7 +49,7 @@ Keep theme controls and implementation notes subordinate to the specimen. When s
 
 ## Theme resolution is more than a palette
 
-**Source facts:** [`Color.qml`](https://github.com/basecamp/omarchy/blob/945549699026df6c888a6b1bd4e06fbf55a67595/shell/Commons/Color.qml), [`Style.qml`](https://github.com/basecamp/omarchy/blob/945549699026df6c888a6b1bd4e06fbf55a67595/shell/Commons/Style.qml), and [`shell.toml.tpl`](https://github.com/basecamp/omarchy/blob/945549699026df6c888a6b1bd4e06fbf55a67595/default/themed/shell.toml.tpl).
+**Source facts:** [`Color.qml`](https://github.com/omacom/omarchy/blob/945549699026df6c888a6b1bd4e06fbf55a67595/shell/Commons/Color.qml), [`Style.qml`](https://github.com/omacom/omarchy/blob/945549699026df6c888a6b1bd4e06fbf55a67595/shell/Commons/Style.qml), and [`shell.toml.tpl`](https://github.com/omacom/omarchy/blob/945549699026df6c888a6b1bd4e06fbf55a67595/default/themed/shell.toml.tpl).
 
 - `current/theme/colors.toml` supplies the foundational palette.
 - `current/theme/shell.toml` supplies surface colors, shared control states, font, spacing and bar settings. It can be generated from the default template or supplied by a theme.
@@ -127,7 +127,7 @@ The same number appearing in two tokens does not make the tokens interchangeable
 | Main `Menu.qml` | baseline row 50, detail row 58, header 34, row gap 3, panel padding 18; normal width 300, some routes 520 | The command menu is materially larger than a 28px dropdown option list |
 | `PanelSeparator.qml` | 1px, foreground alpha .12 | A quiet hairline; not the same visual strength as control or window borders |
 
-Sources: [UI components](https://github.com/basecamp/omarchy/tree/945549699026df6c888a6b1bd4e06fbf55a67595/shell/Ui), [main menu](https://github.com/basecamp/omarchy/blob/945549699026df6c888a6b1bd4e06fbf55a67595/shell/plugins/menu/Menu.qml), [device panels](https://github.com/basecamp/omarchy/tree/945549699026df6c888a6b1bd4e06fbf55a67595/shell/plugins/panels). Read the individual file before porting its behavior.
+Sources: [UI components](https://github.com/omacom/omarchy/tree/945549699026df6c888a6b1bd4e06fbf55a67595/shell/Ui), [main menu](https://github.com/omacom/omarchy/blob/945549699026df6c888a6b1bd4e06fbf55a67595/shell/plugins/menu/Menu.qml), [device panels](https://github.com/omacom/omarchy/tree/945549699026df6c888a6b1bd4e06fbf55a67595/shell/plugins/panels). Read the individual file before porting its behavior.
 
 ## Color, edges and emphasis
 
@@ -187,7 +187,7 @@ Before calling a port visually aligned:
 - [ ] Check normal, hover/cursor, focus, selected, pressed and disabled states; confirm stable bounds and one cursor model.
 - [ ] Check composited selection and text contrast in both dark and light themes. Test a larger text-size setting as well as the baseline.
 - [ ] Exercise keyboard navigation, text editing, popup dismissal and focus return.
-- [ ] Capture and inspect reference and candidate screenshots at comparable logical sizes and states. Compare composition first, then individual metrics. Follow the source's [visual-verification guide](https://github.com/basecamp/omarchy/blob/945549699026df6c888a6b1bd4e06fbf55a67595/agents/skills/visual-verification.md).
+- [ ] Capture and inspect reference and candidate screenshots at comparable logical sizes and states. Compare composition first, then individual metrics. Follow the source's [visual-verification guide](https://github.com/omacom/omarchy/blob/945549699026df6c888a6b1bd4e06fbf55a67595/agents/skills/visual-verification.md).
 - [ ] Treat compile tests, a palette match, and screenshot existence as insufficient evidence of visual quality.
 
 When a running Omarchy reference is unavailable, report the result as source-grounded guidance or implementation, with visual alignment still unverified. Do not invent measurements or claim a visual comparison took place.
