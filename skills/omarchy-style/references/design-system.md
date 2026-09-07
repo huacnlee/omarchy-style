@@ -138,6 +138,8 @@ brown = "#75493D"
 
 These values are the website and Tokyo Night baseline, not mandatory permanent colors for every Omarchy artifact.
 
+An application that reads the user's live theme must handle both the ANSI `color0..15` and semantic formats, derive the roles a theme omits from that same palette, and fall back atomically when any required role is missing. See [Application Design § 1](application-design.md#1-adopt-the-system-theme).
+
 ### 3.2 Semantic roles
 
 | Role | Purpose | Rule |
@@ -324,6 +326,8 @@ omarchy dev font add ollama https://simpleicons.org/icons/ollama.svg
 `add` fetches the SVG, scales it into the `64..960` coordinate box shared by existing marks so it lands at their optical size, appends it at the next free Private Use Area codepoint, and updates the font README. It prints the codepoint and glyph. Verify the result in both normal and selected menu states.
 
 ## 7. UI design language
+
+Shell reproduction follows [Design Guides](design-guides.md). For a native application, pair this section with [Application Design](application-design.md), which gives per-component baseline geometry, state ownership and the keyboard contract.
 
 ### 7.1 Grid and spacing
 

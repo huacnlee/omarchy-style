@@ -21,6 +21,8 @@ Three external fonts complete the faithful shell/brand type and icon system; fet
 
 For any application, component, layout, sizing, spacing, typography, state, or theme-integration work, read [Design Guides](references/design-guides.md) in full before designing. Use its source revision and component formulas; do not reduce Omarchy to palette + 28px controls + square borders. Evaluate the complete composition, not only individual tokens.
 
+When the artifact is a **native application** rather than the shell itself, also read [Application Design](references/application-design.md). It covers reading the user's system theme and deriving missing roles, the application role model, emphasis without solid fills, per-component baseline geometry, state ownership, and the keyboard and focus contract.
+
 Distinguish upstream facts, design recommendations, and explicit platform/user adaptations. Honor the user's font, icon and corner choices while preserving hierarchy and proportions. When the user supplies a local Omarchy checkout, inspect that revision before relying on remembered defaults.
 
 ## Route by task
@@ -28,12 +30,14 @@ Distinguish upstream facts, design recommendations, and explicit platform/user a
 | Task | Required guidance |
 |---|---|
 | UI, settings, shell, panels, states | Design Guides in full, then design system §§ 3–7 and 13–15 |
+| Desktop application, component library, gallery | Design Guides, then Application Design in full |
+| Reading or deriving a theme from `colors.toml` | Application Design § 1, then design system § 3 |
 | Website or documentation layout | Design system §§ 3–4, 7–10, and 13–15 |
 | Product copy, labels, menus, naming | Design system §§ 10–11 |
 | Keyboard shortcuts or hint rails | Design system § 12; verify existing bindings before proposing new ones |
 | Logo, icon, or glyph | Design system §§ 2 and 6; use `logo.svg`, Nerd Font glyphs, and `omarchy.ttf`, never an icon CDN or a redraw |
 | Poster, illustration, city cover | Read [references/illustration-design.md](references/illustration-design.md) in addition to the design system |
-| Theme or palette | Design Guides theme resolution and scaling, then design system § 3; include shell surface/state/size overrides, not only colors |
+| Theme or palette | Design Guides theme resolution and scaling, then design system § 3 and Application Design § 1; include shell surface/state/size overrides and derived roles, not only colors |
 
 For city artwork, verify unsupported local claims against authoritative sources during the task. Keep research notes outside the distributable Skill; include only the short rationale needed to explain the delivered concept.
 
@@ -75,6 +79,8 @@ Before declaring completion, verify the relevant checklist in the design system 
 - text, names, dates, behavior, and shortcuts are accurate;
 - theme colors have semantic roles;
 - composition, intrinsic control sizes, scale, and state hierarchy follow the Design Guides; square corners remain recommended and explicit theme/user overrides are respected;
+- an application resolves the user's theme, derives missing roles from that same palette, and falls back atomically to one complete theme; states stay foreground-tinted rather than accent-coated;
+- every interactive component is reachable and operable by keyboard, keeps stable bounds across states, and carries an explicit accessible name;
 - local symbols and landmarks are verified;
 - decorative effects do not weaken hierarchy or readability;
 - examples demonstrate the Skill without becoming mandatory templates;

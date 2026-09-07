@@ -58,7 +58,7 @@ Keep theme controls and implementation notes subordinate to the specimen. When s
 - `Style.gapsOut` is **half** the effective Hyprland `general:gaps_out`, rounded. The default shell edge gap is `5`, distinct from the Hyprland window gap of `10`.
 - The Linux font family is the system `monospace` alias, resolved with `fc-match`, not a hard-coded JetBrains family. Menu surfaces can override it with `OMARCHY_MENU_FONT`.
 
-**Port guidance:** resolve palette, surface/state roles and structural scale separately. If runtime Hyprland or shell configuration is unavailable, use documented baseline values. Honor an explicit application font choice. A port that reads only colors has palette integration, not full system-style integration.
+**Port guidance:** resolve palette, surface/state roles and structural scale separately. For the application-side reading and derivation rules — theme paths, both palette formats, derived roles and atomic fallback — see [Application Design § 1](application-design.md#1-adopt-the-system-theme). If runtime Hyprland or shell configuration is unavailable, use documented baseline values. Honor an explicit application font choice. A port that reads only colors has palette integration, not full system-style integration.
 
 ## Dimensions and scaling
 
