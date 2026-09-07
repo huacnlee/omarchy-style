@@ -2,9 +2,11 @@
 
 > Brand, interface, website, poster, logo, icon, and keyboard-shortcut guidance for AI and human designers.
 >
-> Version 1.1 · Derived from the Omarchy website, Manual, the official `basecamp/omarchy` repository, and community visual references · 2026-09-03
+> Version 1.2 · UI guidance audited against local Omarchy commit `945549699026df6c888a6b1bd4e06fbf55a67595` · 2026-09-07
 
 ## 0. How to use this document
+
+For UI and application design, read [Design Guides](design-guides.md) in full: they separate implemented shell defaults from design recommendations and platform adaptations. They are authoritative for source-backed sizing, scaling, control states, and composition.
 
 This file is the single entry point for Omarchy's community visual and interaction language. Before designing, identify which layer the artifact belongs to:
 
@@ -36,7 +38,7 @@ Understand Omarchy as:
 - Community poster density: **6–9/10**, depending on illustration complexity.
 - Layout variance: **4/10**. Begin with a strict grid and introduce offsets only with purpose.
 - Motion intensity: **3/10**. Fast, restrained, and tied to state changes.
-- Roundness: **1/10**. Square by default; small controls, code blocks, and media may use slight rounding.
+- Roundness: **0/10 by default**. Prefer square corners (`radius: 0`). Slight rounding is allowed when deliberately chosen for a specific design need; it is not the recommended default.
 
 ### 1.3 At-a-glance recognition
 
@@ -147,7 +149,7 @@ These values are the website and Tokyo Night baseline, not mandatory permanent c
 | `foreground` | Body copy and standard UI | Must meet readable contrast |
 | `bright_foreground` | Headings and input cursor | Highest text level; use sparingly |
 | `dark_foreground` | Secondary information | Placeholders, comments, disabled items |
-| `accent` | Focus, links, and current item | Use one primary accent per screen |
+| `accent` | Links and explicitly accented states | One primary accent; shared shell control focus is foreground-tinted by default |
 | `selection` | Text and list selection background | Pair with `bright_foreground` |
 | `muted` | Dividers, comments, and tracks | Never use for critical copy |
 | `red` | Error, danger, recording, and alert | Do not confuse brand accent with error |
@@ -185,18 +187,19 @@ When an artifact needs the official website feel and no theme is specified, use:
 
 ### 4.1 Font families
 
-- **Product UI, website, documentation, body text, numbers, and shortcuts:** `JetBrains Mono`.
-- **The actual Linux desktop:** `JetBrainsMono Nerd Font`, the system `monospace` alias that also supplies every functional UI glyph (§ 6).
+- **Website and documentation baseline:** `JetBrains Mono`.
+- **Shell UI:** the system `monospace` alias (`Style.font.family`), resolved by fontconfig and changeable by the user. Menu surfaces may use `OMARCHY_MENU_FONT`. Do not hard-code a particular Nerd Font family into every application.
+- **Linux desktop default font installation:** `JetBrainsMono Nerd Font`; use the configured alias so user font changes and Nerd Font glyphs remain supported (§ 6).
 - **Wordmark:** Official SVG or `logo.txt`. Never typeset it in JetBrains Mono or a generic pixel font.
 - **Wordmark-style display lines:** `Omarchy Font`, per § 2.5.
 - **Brand marks:** The private `omarchy` icon font, only for the glyphs it defines (§ 6).
 - Fallback: `"JetBrains Mono", "JetBrainsMono Nerd Font", ui-monospace, monospace`.
 
-Do not corporate-wash Omarchy with Inter, generic sans serif, or serif typography. For CJK text, choose a monospaced or visually stable fallback that aligns with the Latin baseline. Test `Noto Sans Mono CJK` or `Sarasa Mono` on the target platform; do not assume bilingual text aligns automatically.
+Preserve the configured shell typography for faithful Linux reproduction. For a cross-platform application, honor an explicit project font choice (such as `.SystemUIFont`) and verify its metrics; document it as a port choice, not an upstream default. For CJK text, choose a monospaced or visually stable fallback that aligns with the Latin baseline. Test `Noto Sans Mono CJK` or `Sarasa Mono` on the target platform; do not assume bilingual text aligns automatically.
 
 ### 4.2 Product UI scale
 
-Use the shell's `12px` base:
+The following are baseline values at `[font] base-size = 12`, not permanent pixel constants. Theme `shell.toml` and the machine-level `~/.config/omarchy/shell.toml` can change font and spacing scales. Use the derivation and override rules in [Design Guides](design-guides.md#dimensions-and-scaling).
 
 | Token | Size | Use |
 |---|---:|---|
@@ -215,7 +218,7 @@ Use the shell's `12px` base:
 
 ### 4.3 Weight and case
 
-- Body text uses `300–400`; links, headings, and buttons use `700`. Avoid unnecessary intermediate weights.
+- Normal shell Button text is regular; `selected` makes it bold. Section headings and Toggle titles are bold. Use weight according to hierarchy and component state, not a blanket rule that every button or link is bold.
 - Product menus use natural title or sentence case: `File manager`, `Default Browser`, `With desktop audio`.
 - Website buttons may use uppercase with compact labels: `MANUAL`, `ISO`, `GITHUB`.
 - `OMARCHY` may be uppercase in posters. City names, dates, and event names may also be uppercase, but body copy should not be.
@@ -266,7 +269,7 @@ Experimental lettering, vintage type, and unofficial logos must be identified as
 
 ## 6. Icon design
 
-Omarchy ships no SVG icon set. Every interface icon is a text glyph from one of two fonts:
+The shell’s shared functional icons use font glyphs rather than a bundled SVG control-icon set. Launcher entries may also use application images. For faithful shell reproduction, use these two font sources:
 
 | Kind | Font | Where it comes from |
 |---|---|---|
@@ -289,7 +292,7 @@ Reuse the glyphs the official menu already uses so prototypes match the desktop.
 
 Brand glyphs in `omarchy.ttf`: `U+E900` Omarchy, `U+E901` Pi, `U+E902` OpenCode, `U+E903` omp, `U+E904` Grok, `U+E905` Codex, `U+E906` LM Studio, `U+E907` Ollama, `U+E908` T3 Code. Agents that Nerd Fonts already covers stay on Nerd Font glyphs: Claude `U+F06C4`, Copilot `U+F4B8`, Gemini `U+F0AE2`.
 
-In HTML prototypes, self-host both fonts with `@font-face` (`JetBrainsMonoNerdFont-Regular.ttf` from the `JetBrainsMono.zip` [Nerd Fonts release](https://github.com/ryanoasis/nerd-fonts/releases), `omarchy.ttf` from the official repository) and place each glyph in a fixed-width span with `aria-hidden="true"` and a text label. When a font cannot ship, inline the same glyph as a monochrome SVG from its origin set at `currentColor` and keep the codepoint in a data attribute. Do not import Simple Icons, Lucide, Heroicons, Font Awesome CSS, Material Symbols, or any other library as the interface icon set.
+In HTML prototypes, self-host both fonts with `@font-face` (`JetBrainsMonoNerdFont-Regular.ttf` from the `JetBrainsMono.zip` [Nerd Fonts release](https://github.com/ryanoasis/nerd-fonts/releases), `omarchy.ttf` from the official repository) and place each glyph in a fixed-width span with `aria-hidden="true"` and a text label. When a font cannot ship, inline the same glyph as a monochrome SVG from its origin set at `currentColor` and keep the codepoint in a data attribute. For faithful shell reproduction, do not substitute Simple Icons, Lucide, Heroicons, Font Awesome CSS, Material Symbols, or another library for those glyphs. An explicit cross-platform application choice, such as GPUI Kit’s bundled SVG assets, is allowed; document the adaptation and verify painted size, baseline, weight, and inherited color. Brand marks still use their official assets.
 
 - Design new glyphs on a `24 × 24` or `32 × 32` grid with consistent visual weight, aligned with the text baseline.
 - Outline icons should use approximately `1.5–2px` strokes. Pixel icons must land on the integer grid.
@@ -324,51 +327,50 @@ omarchy dev font add ollama https://simpleicons.org/icons/ollama.svg
 
 ### 7.1 Grid and spacing
 
-- Prefer explicit tiling and CSS Grid. The interface should feel like a readable window-manager layout, not a cloud of floating cards.
-- Base spacing sequence: `2, 3, 4, 6, 8, 10, 12, 14, 18px`; large pages may extend to `24, 32, 48, 64px`.
-- Shell baseline: compact inner space with greater outer separation. Official Hyprland defaults are `gaps_in: 5px`, `gaps_out: 10px`, and a `2px` border.
-- Choose content width by task: approximately `50em` for reading; no more than `1600px` for a complex workbench, with outer margins.
-- Below `768px`, collapse to one column. Page-level horizontal scrolling is a failure; code and tables may scroll within local containers.
+- Compose by task: bar, command menu, form, device popup and desktop workbench have different proportions. Follow [Design Guides](design-guides.md#start-from-the-task-and-the-surface).
+- Preserve shared spacing roles and scale coupling from `Style.qml`; baseline steps are `2, 3, 4, 6, 8, 10, 12, 14, 18`. Their names and larger control/panel tokens are in [the token table](design-guides.md#shared-spacing).
+- Font and spacing scale together by default. Explicit per-token spacing overrides pin a value and are not scaled again.
+- Hyprland defaults are `gaps_in: 5`, `gaps_out: 10` and border size `2`. Shell popup-to-edge spacing uses half the effective Hyprland outer gap, default `5`; do not conflate the two.
+- Determine content width from its job. Official network, Bluetooth and audio panels request `space(380)` and fit the screen; a simple field or action should not fill a wide workbench.
+- The source has no universal `768px` shell breakpoint. Choose responsive changes from real content constraints; keep text and controls readable and scrolling local.
 
 ### 7.2 Geometry
 
-- System windows default to `0px` radius, no window shadow, and no blur.
-- Buttons and search-result containers may use subtle `0.3–0.5em` rounding. Do not use pill buttons.
-- Use `1–2px` borders and spacing for structure rather than large shadows.
-- Borders use `muted`, low-alpha foreground, or the current active-border color. Active windows and focus must be unmistakable.
-- Use gradients only when the current theme explicitly defines an active-border gradient. Never invent a permanent “brand gradient.”
+- Recommend square application chrome (`radius: 0` by default), with slight rounding allowed when deliberately chosen.
+- Source fact: `Style.cornerRadius` follows effective Hyprland rounding, default `0`. Some upstream shapes differ: MultiSelect's checkbox has a minimum radius of `2`, and PanelSlider has a circular knob and rounded track. Do not claim the source is uniformly square or silently turn these exceptions into universal rounding.
+- Honor an explicit theme or user choice when promising system-style integration. A square-by-default adaptation should record any deliberate departure from component-specific source geometry.
+- Separate window, popup, control and divider borders. Controls default to a `1px` state border; windows default to `2px`; dividers use `1px` with foreground alpha `.12`. Surface border widths can be theme-defined per side.
+- Reserve the largest possible state border before layout. Use gradients only when the active theme defines them; otherwise use the appropriate surface/state color.
 
 ### 7.3 Surface hierarchy
 
-- Page base: `background`.
-- Raised surface: `lighter_background` or foreground at `4–8%` alpha.
-- Hover/keyboard cursor: foreground `8%` fill plus `25%` border.
-- Focus: Use the same visual vocabulary as hover so mouse and keyboard do not create separate systems.
-- Selected: foreground `18%` fill; text may change to `accent` when useful.
-- Pressed: foreground `22%` fill plus subtle press displacement.
-- Full-screen menu scrim: `background` at approximately `50%` alpha.
+- Use the active `shell.toml` surface roles for bars, popups, menus, tooltips and notifications, not just the foundational `colors.toml` palette. User shell keys override theme shell keys.
+- Shared control states default to **foreground** tint: normal fill `.04` / border `.40`, hover-cursor fill `.08` / border `.25`, focus matching hover, selected fill `.18` with selected border width `0`, pressed fill `.22`.
+- Plain buttons are transparent and borderless at rest; normal form chrome and explicitly bordered buttons have different idle treatment. See [state details](design-guides.md#shared-control-states).
+- Menu cursor rows use their own `[menu]` roles, including accent text by default. Persistent selection, panel cursor and active focus are separate states.
+- TextField/NumberField selection defaults to foreground at `.35` through `Style.selectionFillFor`, with foreground text. This is distinct from the `colors.toml` selection ramp used by generated application themes.
+- Do not use the same opaque border, accent fill, or raised surface for every container. Check the whole screen's hierarchy and composited contrast.
 
 ### 7.4 Buttons
 
-- Primary: `accent` fill, dark text, bold, and a short label. Usually allow only one primary action per region.
-- Secondary: Transparent with a `1px` low-contrast border, or a text link.
-- Product UI height starts at `28px`; touch-first web targets must be at least `44px`.
-- Keep icon-to-label spacing near `1ch`. Use an icon only when it contributes meaning.
-- Hover changes background, text, or border. It does not scale, rotate, or glow.
-- Active may use `translateY(1px)`. Disabled catalog items remain visible, reduce contrast, and may show `✓` when already installed or satisfied.
+- The source Button defaults to transparent, unbordered chrome and regular body text; selected text becomes bold. A filled primary action is an intentional application design choice, not the default Omarchy Button recipe.
+- Size from the measured text/icon row, horizontal padding `10` per side, vertical padding `6` per side, and maximum state-border insets at baseline. Do not force every button to height `28`.
+- Default icon size is `14`, text `12`, and icon-label gap `8`, all through their tokens. Inline PanelActionButton is a separate `22×22` baseline control.
+- Prefer content-width actions and quiet groups. Use full-width rows where the task is a menu or list, not merely because a component demo has a wide parent.
+- Render pressed, focus, hover/cursor, selected and idle with the shared state hierarchy. Do not invent accent outlines or movement on every activation.
+- Keep destructive consequences clear. Disabled actions remain understandable and do not fire; platform accessibility adaptations must preserve keyboard behavior.
 
 ### 7.5 Menus and lists
 
-- A menu is a command tree, not marketing navigation. Each row leads to a clear noun destination or action.
-- Use fixed icon, label, and optional shortcut/status columns.
-- Default row height is `28px`: dense but scannable. Pointer hover and keyboard cursor share the same state.
-- A submenu title may be more specific than its entry: `Browser` may open `Default Browser`.
-- Mark current choices with `✓`. Installed disabled items remain visible and dimmed; Remove entries that do not apply may be hidden.
-- Search labels, the final segment of stable IDs, and descriptions. Do not add aliases casually.
+- A command menu is a command tree with fixed icon, label and shortcut/status columns, not a collection of small buttons.
+- Distinguish **dropdown options** (`popup-row-height`, baseline `28`) from the **main command menu** (`Menu.qml`, baseline `50` per row or `58` with detail). Menu header is `34`, row spacing `3`, and content padding `18` at the baseline.
+- Device/list rows grow with icon, text, metadata and action content. Do not force two-line rows into dropdown heights.
+- Use one panel cursor for pointer and keyboard. Keep persistent current choice separately marked. Rows should not show competing hover and keyboard highlights.
+- Search labels, IDs and descriptions honestly. Mark current choices and disabled/installed states; do not invent aliases or shortcuts.
 
 ### 7.6 Inputs and forms
 
-- Put labels above inputs, helper copy below, and errors adjacent to the field.
+- Put labels above inputs, helper copy below, and errors adjacent to the field. Derive height from line metrics, padding and borders. TextField uses baseline horizontal padding `10` and vertical padding `7`; NumberField uses width `120` and a baseline `28` high control. A labeled Toggle is a separate row at least `54` high, with a trailing switch. See [component geometry](design-guides.md#component-geometry).
 - Search may use a quiet underline: transparent background and a `1px` bottom border that switches to accent on focus.
 - Configuration confirmation suits a terminal table: `Field | Value`, followed by a direct question such as `Does this look right?`.
 - Highlight the default option with a solid row and expose direct keys such as `y Yes` and `n No`.
@@ -385,7 +387,7 @@ omarchy dev font add ollama https://simpleicons.org/icons/ollama.svg
 ### 7.8 Code, tables, and technical content
 
 - Inline code uses a translucent `lighter_background`/`muted` fill and cyan or accent text.
-- Code blocks may use at most `0.5em` radius. Never add fake macOS red/yellow/green window controls.
+- Prefer `0px` radius for code blocks; slight rounding may follow an explicitly chosen surrounding design. Never add fake macOS red/yellow/green window controls.
 - Tables use `1px` low-contrast borders, left alignment, and compact cells. Right-align numeric columns.
 - List markers, chapter numbers, and heading anchors may use green or accent for a terminal-index feel.
 - Align long logs and system metrics into columns; use monospace for all numbers.
@@ -402,9 +404,9 @@ omarchy dev font add ollama https://simpleicons.org/icons/ollama.svg
 - Panel headers use object icon + object name + short state/subtitle, with one key value optionally aligned right.
 - Group by task with thin dividers rather than nested cards: overview → progress → details → actions.
 - Labels use muted foreground; values use normal or bright foreground. Units stay attached to aligned values.
-- Progress tracks use muted surfaces and foreground/accent fill. Switch to a status color only at a meaningful threshold.
+- In the source PanelSlider, track and thumb have distinct geometry and hit area; foreground is the default fill/knob color in panel use. Do not equate every progress/slider state with accent. Use status colors only at meaningful thresholds.
 - Binary toggles, modes, and current choices require position, fill, or `✓`; text color alone is insufficient.
-- Keep no more than two or three peer actions at the bottom. The primary action uses solid or selected fill; others use outlines.
+- Keep a small group of peer actions at the bottom. Choose emphasis from task importance; a selected fill or deliberate primary variant may distinguish the main action. Do not require solid fills and outlines on every action.
 - A panel may float over a vivid wallpaper, but its scrim and surface must remain opaque enough that the image does not pollute body copy.
 
 ### 7.11 Plugin directories and marketplaces
@@ -445,14 +447,14 @@ omarchy dev font add ollama https://simpleicons.org/icons/ollama.svg
 - Links use the accent and retain underlines; hover lifts them to bright foreground.
 - Documentation sidebars use zero-padded chapter numbers, low-contrast default entries, and a high-contrast current entry.
 - Content headings should be only `1.1–1.75×` body size. Technical documentation does not need giant marketing headlines.
-- Body images may use `0.5em` radius. Posters, pixel art, and logos must not inherit forced rounding.
+- Prefer square bounds for body images; slight clipping radius is optional when deliberately chosen. Keep posters, pixel art, and logos free of automatic rounded clipping.
 - Desktop sidebars may be sticky. Mobile hides the sidebar but retains search and chapter navigation access.
 
 ## 9. Motion and feedback
 
-- Default transition: `150ms cubic-bezier(0.33, 1, 0.68, 1)`.
+- Source timing is component-specific: Button `120ms`, CursorSurface `60ms`, Toggle `100ms`, switch travel `120ms`, PopupCard opacity `140ms`. Use the actual component as reference; there is no universal shell `150ms` transition.
 - Window entry may use a quick `popin` from approximately `87% → 100%`; exit should be faster.
-- Animate only `transform` and `opacity`. Do not spend continuous CPU on decoration.
+- Favor inexpensive, short state transitions in a port. The QML source also animates color and some position/size properties; do not mislabel a web performance recommendation as an upstream restriction. Avoid continuous decoration.
 - Approved brand micro-motion: a brief green glint crossing ASCII art every few seconds, followed by complete stillness.
 - Lists do not need waterfall entrance animation. Keyboard response must be immediate.
 - Respect `prefers-reduced-motion`; all information must remain complete without animation.
@@ -564,9 +566,9 @@ Omarchy shortcuts follow a hierarchy:
 
 - Every primary action is keyboard-accessible, and focus order follows visual order.
 - `:focus-visible` must be clear through accent or active border. Never remove outline without replacement.
-- Touch targets are at least `44 × 44px`. Dense desktop shell rows may be `28px` high when full keyboard control exists.
+- Touch-first targets are at least `44 × 44px`. Desktop dimensions follow the component formulas: compact dropdown options may be `28px`, while command-menu and multi-line rows are larger. Preserve full keyboard access.
 - Icon buttons require accessible names. Hide decorative ASCII/SVG from assistive technology and provide a textual brand name.
-- The interface remains usable at `200%` zoom. Body text should not fall below `13px`; primary web copy should normally be at least `16px`.
+- The interface remains usable at larger font settings and `200%` zoom. Web copy should normally be at least `16px` (never below `13px`); the shell has its own user-scaled `12px` baseline. Do not apply web text minimums to the shell without an explicit adaptation.
 - Color is never the only signal. Pair status with text, icon, or `✓`.
 - Pixel type is for wordmarks and short display lines, never long body copy or critical instructions.
 - Check contrast, image scrims, and code highlighting independently in both dark and light themes.
@@ -578,7 +580,7 @@ Omarchy shortcuts follow a hierarchy:
 - Do not use three equal “feature cards” as the default marketing-page structure. Comparable collections such as a plugin marketplace may use a regular card grid.
 - Do not replace the official wordmark with giant generic sans-serif marketing type.
 - Do not use pixel fonts for body copy.
-- Do not add radius and shadow to every container.
+- Prefer square UI corners. Do not add rounding indiscriminately to containers or controls.
 - Do not stack low-contrast gray text on a dark theme.
 - Do not substitute emoji for functional icons, and do not import a third-party icon library in place of Nerd Font and `omarchy` icon-font glyphs.
 - Do not invent fake terminal output, random hexadecimal strings, or meaningless code rain.
@@ -601,7 +603,7 @@ During generation:
 
 - [ ] JetBrains Mono/Nerd Font syntax and the correct wordmark are used.
 - [ ] One primary accent is used, and status colors retain semantic meaning.
-- [ ] Grid, borders, and spacing carry structure; shadow and radius stay restrained.
+- [ ] The whole screen has clear hierarchy and restrained chrome; size and spacing follow the correct component roles and active scale, with corner policy deliberately chosen.
 - [ ] Copy is short, concrete, and actionable, with no AI marketing clichés.
 - [ ] Hover, focus, selected, pressed, and disabled states are defined.
 - [ ] Desktop and mobile layouts both work, with complete keyboard paths.
@@ -621,7 +623,7 @@ Design this as part of the Omarchy community system.
 
 Preserve the brand core: official sharp pixel/ASCII Omarchy wordmark, JetBrains Mono typography, terminal-native information structure, keyboard-first interaction, dense grid-based layout, thin borders, square geometry, restrained motion, and concise opinionated copy.
 
-Treat color as a theme, not a fixed brand palette. Use semantic roles for background, darker/lighter surfaces, foreground levels, accent, selection, muted, and ANSI status colors. Use one primary accent per screen. Default to the official website's Tokyo Night palette only when no theme is specified.
+Read the UI Design Guides before composing a screen. Preserve the different proportions of bars, forms, device panels, and command menus. Size controls from content, spacing tokens, and active font/spacing scales; avoid uniform 28px controls, repeated nested borders, and full-width action stacks. Treat color as a theme, not a fixed brand palette. Use semantic roles for background, darker/lighter surfaces, foreground levels, accent, selection, muted, and ANSI status colors. Use one primary accent per screen. Default to the official website's Tokyo Night palette only when no theme is specified.
 
 For community artwork, ground the image in the real local city or culture. Choose pixel-line skyline, themed retro-futurist illustration, or authentic low-light community photography. Keep the official wordmark dominant and crisp. Avoid generic cyberpunk, neon glow, glassmorphism, pill-shaped UI, SaaS card grids, fake terminal noise, emojis as UI icons, and AI marketing copy.
 
@@ -629,6 +631,9 @@ Every interaction must define keyboard behavior and visible hover, focus, select
 ```
 
 ## 17. Sources
+
+For the exact audited UI revision, source-to-token mapping and visual review criteria, see [Design Guides](design-guides.md). Broader community/website references below are not substitutes for component source measurements.
+
 
 This system was derived from the following primary sources. When implementation changes, the official source and Manual take precedence:
 

@@ -41,7 +41,7 @@ Use $omarchy-style to create a text-free community wallpaper with a dark pixel-a
 Use $omarchy-style to review this menu, its keyboard navigation, and its shortcut labels.
 ```
 
-The Skill routes each task to the relevant design-system sections and adds specialized illustration guidance for posters, city covers, and wallpapers.
+For UI work, the Skill first loads [Design Guides](skills/omarchy-style/references/design-guides.md), covering whole-screen composition, source-backed component proportions, theme scaling and state hierarchy. It then routes to the relevant design-system sections. Illustration work has separate guidance for posters, city covers, and wallpapers.
 
 ## Repository structure
 
@@ -51,7 +51,8 @@ skills/
     ├── SKILL.md                     # Agent entry point and routing rules
     ├── agents/openai.yaml           # Agent metadata
     └── references/
-        ├── design-system.md          # Complete visual and interaction system
+        ├── design-system.md          # Brand and shared design language
+        ├── design-guides.md          # Source-audited UI composition, sizing, scaling and states
         ├── illustration-design.md    # Illustration and image-generation rules
         └── example-quality.md        # Finish and density benchmarks
 

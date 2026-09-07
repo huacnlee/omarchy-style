@@ -11,23 +11,29 @@ Apply Omarchy's official community design system across visual, interaction, and
 
 Read [references/design-system.md](references/design-system.md) completely before changing or creating an Omarchy artifact. Use [assets/logo.svg](../../assets/logo.svg) whenever the official wordmark appears; never redraw it with a font or ask an image model to reproduce it.
 
-Three external fonts complete the type and icon system; fetch them from their sources when a task needs them:
+Three external fonts complete the faithful shell/brand type and icon system; fetch them from their sources when a task needs them:
 
 - [Omarchy Font](https://github.com/markcuda/Omarchy-Font) (community, MIT) for wordmark-style display lines such as city labels and short headlines (design system § 2.5).
 - `JetBrainsMono Nerd Font` for text and every functional UI icon; Omarchy has no SVG icon set (design system § 6).
 - The official [`omarchy.ttf`](https://github.com/basecamp/omarchy/tree/quattro/default/fonts/omarchy) icon font for the Omarchy mark and agent brand glyphs, `U+E900`–`U+E908` (design system § 6).
 
+## UI foundation
+
+For any application, component, layout, sizing, spacing, typography, state, or theme-integration work, read [Design Guides](references/design-guides.md) in full before designing. Use its source revision and component formulas; do not reduce Omarchy to palette + 28px controls + square borders. Evaluate the complete composition, not only individual tokens.
+
+Distinguish upstream facts, design recommendations, and explicit platform/user adaptations. Honor the user's font, icon and corner choices while preserving hierarchy and proportions. When the user supplies a local Omarchy checkout, inspect that revision before relying on remembered defaults.
+
 ## Route by task
 
 | Task | Required guidance |
 |---|---|
-| UI, settings, shell, panels, states | Design system §§ 3–7 and 13–15 |
+| UI, settings, shell, panels, states | Design Guides in full, then design system §§ 3–7 and 13–15 |
 | Website or documentation layout | Design system §§ 3–4, 7–10, and 13–15 |
 | Product copy, labels, menus, naming | Design system §§ 10–11 |
 | Keyboard shortcuts or hint rails | Design system § 12; verify existing bindings before proposing new ones |
 | Logo, icon, or glyph | Design system §§ 2 and 6; use `logo.svg`, Nerd Font glyphs, and `omarchy.ttf`, never an icon CDN or a redraw |
 | Poster, illustration, city cover | Read [references/illustration-design.md](references/illustration-design.md) in addition to the design system |
-| Theme or palette | Design system § 3 and official theme semantics; treat color as roles, not permanent brand colors |
+| Theme or palette | Design Guides theme resolution and scaling, then design system § 3; include shell surface/state/size overrides, not only colors |
 
 For city artwork, verify unsupported local claims against authoritative sources during the task. Keep research notes outside the distributable Skill; include only the short rationale needed to explain the delivered concept.
 
@@ -36,9 +42,9 @@ For city artwork, verify unsupported local claims against authoritative sources 
 An Omarchy artifact must preserve:
 
 - the official sharp wordmark or approved ASCII/icon form;
-- JetBrains Mono / Nerd Font information hierarchy, with Nerd Font and `omarchy` icon-font glyphs as the only interface icons and Omarchy Font for wordmark-style display lines;
+- the configured shell typography and Nerd Font / `omarchy` icon glyphs for faithful shell reproduction; explicit application font and icon choices are allowed as documented platform adaptations;
 - terminal-native, keyboard-first structure;
-- strict grids, square geometry, thin borders, and restrained effects;
+- strict grids, recommended square geometry (`radius: 0` by default; deliberate slight rounding is allowed), thin borders, and restrained effects;
 - one primary semantic accent per screen or cover;
 - concise, specific copy with honest paths, commands, states, and consequences;
 - factual product behavior, local identity, branding, and shortcuts;
@@ -68,6 +74,7 @@ Before declaring completion, verify the relevant checklist in the design system 
 - official assets are exact and unobstructed, and display lettering is Omarchy Font or JetBrains Mono, not an image-model rendering;
 - text, names, dates, behavior, and shortcuts are accurate;
 - theme colors have semantic roles;
+- composition, intrinsic control sizes, scale, and state hierarchy follow the Design Guides; square corners remain recommended and explicit theme/user overrides are respected;
 - local symbols and landmarks are verified;
 - decorative effects do not weaken hierarchy or readability;
 - examples demonstrate the Skill without becoming mandatory templates;
